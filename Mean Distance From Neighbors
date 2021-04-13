@@ -39,9 +39,6 @@ for i1,i2 in interactions:
     intreaction_line.append(
     distance
 )
-
-#store your computed value 
-
     computed_interactions.append(
      intreaction_line
     )
