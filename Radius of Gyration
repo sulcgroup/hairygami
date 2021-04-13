@@ -30,14 +30,11 @@ computed_interactions = []
 rgs = np.copy(ref.positions[
             hair_id[0]:hair_id[1]+1
         ])
-rs = (rgs-cms)**2             #Not sure if this formula is correct 
+rs = (rgs-cms)**2      #Not Sure if this formula is correct or makes sense
 sq = np.sum(rs, axis=1)
 sq_rs = np.array([sq])
-rgi = sq_rs = np.array([sq])
-intreaction_line.append(rgi)
-
-computed_interactions.append(
-        intreaction_line
+rg_sqrt = np.sqrt(sq_rs)
+intreaction_line.append(rg_sqrt)
     )
     # get another conf if it exists 
 ref = r.read()
