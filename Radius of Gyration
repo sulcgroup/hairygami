@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+from UTILS.readers import ErikReader
+import numpy as np 
+
+trajectory = "/mnt/c/Users/joejo/Desktop/trajectory.dat"
+r = ErikReader(trajectory) # access your trajectory
+
+ref = r.read()
+ref.inbox()
+
+#Define Hairs
+hair_ids = [
+    [1234, 4321],
+    [5123, 5481], 
+]
+
+while ref: 
+    ref.inbox()
+
+    cms_s = []
+    for hair_id in hair_ids:
+        hair_base_positions = ref.positions[
+            hair_id[0]:hair_id[1]+1
+        ]
+        cms = np.mean(hair_base_positions,axis =0)
+        
+      
+computed_interactions = []
+
+rgs = np.copy(ref.positions[
+            hair_id[0]:hair_id[1]+1
+        ])
+rs = (rgs-cms)**2             #Not sure if this formula is correct 
+sq = np.sum(rs, axis=1)
+sq_rs = np.array([sq])
+rgi = sq_rs = np.array([sq])
+intreaction_line.append(rgi)
+
+computed_interactions.append(
+        intreaction_line
+    )
+    # get another conf if it exists 
+ref = r.read()
+
+print(
+    np.mean(
+        computed_interactions, axis= 0
+    )
+)
