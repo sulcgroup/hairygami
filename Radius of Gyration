@@ -22,7 +22,6 @@ while ref:
     counter += 1 
     ref.inbox() # inbox your system
     #print(ref.time)
-    ref = r.read()
     if counter == 50:
         break
     cms_s = []
