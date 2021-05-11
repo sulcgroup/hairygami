@@ -1,46 +1,47 @@
-#!/usr/bin/env python3
 from UTILS.readers import ErikReader
+import sys 
 import numpy as np 
 
-trajectory = "/mnt/c/Users/joejo/Desktop/trajectory.dat"
+
+trajectory = sys.argv[1]
 r = ErikReader(trajectory) # access your trajectory
 
-ref = r.read()
-ref.inbox()
-
-#Define Hairs
-hair_ids = [
-    [1234, 4321],
-    [5123, 5481], 
+#list pairs you want to calculate
+hair_ids = [(32, 40),
+ (72, 80),
+ (6849, 6857),
+ (6889, 6897),
+ (6930, 6938),
+ (6971, 6979),
+ (7011, 7019),
 ]
 
-while ref: 
-    ref.inbox()
-
+counter = 0 
+ref = r.read() # get a configuration 
+while ref:
+    counter += 1 
+    ref.inbox() # inbox your system
+    #print(ref.time)
+    ref = r.read()
+    if counter == 50:
+        break
     cms_s = []
     for hair_id in hair_ids:
-        hair_base_positions = ref.positions[
-            hair_id[0]:hair_id[1]+1
-        ]
-        cms = np.mean(hair_base_positions,axis =0)
-        
-      
-computed_interactions = []
+        hair_base_positions = ref.positions[hair_id[0]:hair_id[1]+1]
+        cms = np.mean(hair_base_positions, axis=0)
+        cms_s.append(cms)
+        #print(cms)
 
-rgs = np.copy(ref.positions[
-            hair_id[0]:hair_id[1]+1
-        ])
-rs = (rgs-cms)**2      #Not Sure if this formula is correct or makes sense
-sq = np.sum(rs, axis=1)
-sq_rs = np.array([sq])
-rg_sqrt = np.sqrt(sq_rs)
-intreaction_line.append(rg_sqrt)
-    )
-    # get another conf if it exists 
-ref = r.read()
+n = len(hair_ids)
+interaction_line = []
+for hair_id, cms in zip(hair_ids, cms_s):
+    rps = np.copy(hair_base_positions)
+    r_sq = (rps-cms)**2
+    sq = np.sum(r_sq)
+    rg_sqrt = np.sqrt((1/n)*(sq))
+    interaction_line.append(rg_sqrt)
+print(interaction_line)
 
-print(
-    np.mean(
-        computed_interactions, axis= 0
-    )
-)
+
+
+
