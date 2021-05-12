@@ -12,34 +12,35 @@ hair_ids = [(32, 40),
  (6849, 6857),
  (6889, 6897),
  (6930, 6938),
- (6971, 6979),
- (7011, 7019),
 ]
 
-counter = 0 
-ref = r.read() # get a configuration 
-while ref:
-    counter += 1 
-    ref.inbox() # inbox your system
-    #print(ref.time)
-    if counter == 50:
-        break
-    cms_s = []
-    for hair_id in hair_ids:
-        hair_base_positions = ref.positions[hair_id[0]:hair_id[1]+1]
-        cms = np.mean(hair_base_positions, axis=0)
-        cms_s.append(cms)
-        #print(cms)
 
 n = len(hair_ids)
-interaction_line = []
-for hair_id, cms in zip(hair_ids, cms_s):
-    rps = np.copy(hair_base_positions)
-    r_sq = (rps-cms)**2
-    sq = np.sum(r_sq)
-    rg_sqrt = np.sqrt((1/n)*(sq))
-    interaction_line.append(rg_sqrt)
+ref = r.read() # get a configuration 
+while ref:
+    ref.inbox() # inbox your system
+    print(ref.time)
+    cms_s = []
+    for hair_id in hair_ids:
+        ref.positions[hair_id[0]:hair_id[1]+1]
+        cms = np.mean(ref.positions[hair_id[0]:hair_id[1]+1], axis=0)
+        cms_s.append(cms)
+        print(cms)
+
+    interaction_line = []
+    for hair_id, cms in zip(hair_ids, cms_s):
+        rps = np.copy(ref.positions[hair_id[0]:hair_id[1]+1])
+        r_sq = (rps-cms)**2
+        sq = np.sum(r_sq)
+        rg_sqrt = np.sqrt((1/n)*(sq))
+        interaction_line.append(rg_sqrt)
+    ref = r.read()
 print(interaction_line)
+
+
+    
+
+
 
 
 
